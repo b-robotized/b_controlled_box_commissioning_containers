@@ -1,0 +1,13 @@
+repositories:
+    b_ctrldbox_commissioning:
+        type: git
+        url: https://github.com/b-robotized/b_ctrldbox_commissioning.git
+        version: fanuc-master
+    fanuc_description:
+        type: git
+        url: https://github.com/FANUC-CORPORATION/fanuc_description.git
+        version: main
+    fanuc_driver:
+        type: git
+        url: https://github.com/b-robotized-forks/fanuc_driver
+        version: b-controlled-box  # on top of ros2-jazzy-migration (772ccaa8b7fb9e5ea9193031b72b193182f226c2)

@@ -1,0 +1,10 @@
+repositories:
+  control_msgs:
+    type: git
+    url: https://github.com/StoglRobotics-forks/control_msgs.git
+    version: bCtrldBox/jazzy/gpio-controller-msgs
+  ros2_controllers:
+    type: git
+    url: https://github.com/b-robotized-forks/ros2_controllers.git
+    version: bCtrldBox/jazzy/gpio-tool-ctrl-jtc-dont-send-feedback-in-rt
+

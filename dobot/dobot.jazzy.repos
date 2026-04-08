@@ -1,0 +1,18 @@
+repositories:
+    b_ctrldbox_commissioning:
+        type: git
+        url: https://github.com/b-robotized/b_ctrldbox_commissioning.git
+        version: dobot-master
+    DOBOT_6Axis_ROS2_V4:
+        type: git
+        url: https://github.com/b-robotized-forks/DOBOT_6Axis_ROS2_V4.git
+        version: feat/dobot-hw-interface-with-gpio
+    SCServo_Linux_vendor:
+        type: git
+        url: https://github.com/b-robotized-forks/SCServo_Linux_vendor.git
+        version: master
+    feetech_servo_driver:
+        type: git
+        url: https://github.com/b-robotized-forks/feetech_servo_driver.git
+        version: master
+
