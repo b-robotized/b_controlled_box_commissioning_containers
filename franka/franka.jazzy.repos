@@ -1,6 +1,17 @@
 repositories:
-    franka_description:
-        type: git
-        url: https://github.com/b-robotized-forks/franka_description.git
-        version: rosconde
-
+  b_robotized_moveit_plugins:
+    type: git
+    url: https://github.com/b-robotized/b_robotized_moveit_plugins
+    version: master
+  foreman:
+    type: git
+    url: https://github.com/ros-controls/foreman
+    version: master
+  franka_description:
+    type: git
+    url: https://github.com/b-robotized-forks/franka_description.git
+    version: b-controlled-box/jazzy
+  franka_lock_unlock:
+    type: git
+    url: https://github.com/b-robotized-forks/franka_lock_unlock.git
+    version: b-controlled-box/jazzy
