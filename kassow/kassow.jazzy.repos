@@ -2,10 +2,24 @@ repositories:
     kassow_kord_driver:
         type: git
         url: https://github.com/b-robotized/kassow_kord_driver.git
-        version: master
+        version: feat/async-params
     kassow_kord_vendor:
         type: git
         url: https://github.com/b-robotized/kassow_kord_vendor.git
         version: master
-
-
+    foreman:
+        type: git
+        url: https://github.com/ros-controls/foreman.git
+        version: master
+    b_robotized_moveit_plugins:
+        type: git
+        url: https://github.com/b-robotized/b_robotized_moveit_plugins.git
+        version: master
+    control_msgs:
+        type: git
+        url: https://github.com/b-robotized-forks/control_msgs.git
+        version: b-controlled-box/jazzy
+    ros2_control:
+        type: git
+        url: https://github.com/ros-controls/ros2_control.git
+        version: jazzy
