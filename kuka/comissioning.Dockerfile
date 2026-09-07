@@ -33,7 +33,7 @@ RUN yes | rtw workspace create \
 --ws-folder ros2_jazzy \
 --ros-distro jazzy \
 --ignore-ws-cmd-error \
---env-vars RMW_IMPLEMENTATION=rmw_zenoh_cpp RUST_LOG=zenoh=warn,zenoh_transport=warn 
+--env-vars RMW_IMPLEMENTATION=rmw_zenoh_cpp RUST_LOG=zenoh=warn,zenoh_transport=warn
 
 ############################
 # Workspace build
@@ -50,7 +50,8 @@ RUN git clone -n --depth=1 --filter=tree:0 https://github.com/ros-controls/ros2_
 
 # run rosdep install
 WORKDIR /home/b-robotized/comissioning/ros2_jazzy
-RUN sudo apt update && rosdep update && rosdep install --from-paths src --ignore-src -r -y
+RUN sudo apt update && rosdep update && rosdep install --from-paths src --ignore-src -r -y \
+    --skip-keys "kuka_gazebo kuka_iiqka_eac_driver kuka_sunrise_fri_driver kuka_rsi_simulator kuka_kr_moveit_config kuka_lbr_iisy_moveit_config kuka_lbr_iiwa_moveit_config kuka_external_control_sdk"
 
 # build the workspace
 RUN rtw workspace use ros2_jazzy && \
