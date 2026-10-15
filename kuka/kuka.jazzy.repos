@@ -2,15 +2,15 @@ repositories:
   kuka_drivers:
     type: git
     url: https://github.com/b-robotized-forks/kuka_drivers.git
-    version: b-controlled-box/jazzy-rebase
+    version: feat/jazzy-rebase-rsi-ext-cartesian
   kuka_robot_descriptions:
     type: git
     url: https://github.com/b-robotized-forks/kuka_robot_descriptions.git
-    version: dev/rebase
-  kuka_external_control_sdk:
+    version: feat/rsi-ext-rebase-ext-cartesian
+  kuka/kuka_external_control_sdk:
     type: git
     url: https://github.com/b-robotized-forks/kuka-external-control-sdk.git
-    version: master
+    version: b-controlled-box/jazzy-rsi-ext-cartesian
   foreman:
     type: git
     url: https://github.com/ros-controls/foreman.git
@@ -18,10 +18,6 @@ repositories:
   control_msgs:
     type: git
     url: https://github.com/b-robotized-forks/control_msgs.git
-    version: b-controlled-box/jazzy
-  ros2_controllers:
-    type: git
-    url: https://github.com/b-robotized-forks/ros2_controllers.git
     version: b-controlled-box/jazzy
   realtime_tools:
     type: git
