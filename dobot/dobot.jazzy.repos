@@ -15,4 +15,3 @@ repositories:
         type: git
         url: https://github.com/b-robotized-forks/feetech_servo_driver.git
         version: master
-

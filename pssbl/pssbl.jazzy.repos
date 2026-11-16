@@ -7,4 +7,3 @@ repositories:
     type: git
     url: https://github.com/b-robotized-forks/ros2_controllers.git
     version: bCtrldBox/jazzy/gpio-tool-ctrl-jtc-dont-send-feedback-in-rt
-
