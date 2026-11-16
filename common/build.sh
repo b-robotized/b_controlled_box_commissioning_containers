@@ -14,7 +14,7 @@ set -e
 # need to modify the base layer itself.
 # ---------------------------------------------------------------------------
 
-CONTAINER_REGISTRY_URL="code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers"
+CONTAINER_REGISTRY_URL="ghcr.io/b-robotized/b_controlled_box_commissioning_containers"
 IMAGE_NAME="rtw-tools"
 IMAGE_TAG="jazzy"
 FULL_IMAGE_PATH="${CONTAINER_REGISTRY_URL}/${IMAGE_NAME}:${IMAGE_TAG}"

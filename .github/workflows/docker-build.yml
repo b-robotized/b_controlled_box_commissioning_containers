@@ -1,0 +1,124 @@
+# Builds the commissioning images and publishes them to the GitHub Container Registry (ghcr.io).
+# Pull requests only build the images. A git tag (e.g. 1.6.x) or a manual run also pushes them.
+name: Docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Image tag, the b»controlled box app version (e.g. 1.6.x)'
+        required: true
+        type: string
+  pull_request:
+    branches:
+      - master
+  push:
+    tags: ['*']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io/b-robotized/b_controlled_box_commissioning_containers
+  LOCAL_REGISTRY: localhost:5000
+  PUSH: ${{ github.event_name != 'pull_request' }}
+
+jobs:
+  base:
+    name: rtw-tools
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Log in to the Container registry
+        if: env.PUSH == 'true'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: common
+          file: common/rtw-tools.jazzy.Dockerfile
+          push: ${{ env.PUSH == 'true' }}
+          tags: ${{ env.REGISTRY }}/rtw-tools:jazzy
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha,scope=rtw-tools
+          cache-to: type=gha,scope=rtw-tools,mode=max
+
+  robots:
+    name: ${{ matrix.robot }}
+    needs: base
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        robot: [dobot, fanuc, franka, kassow, kuka, pssbl, ur]
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+    steps:
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: true
+
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+        with:
+          driver-opts: network=host
+
+      - name: Log in to the Container registry
+        if: env.PUSH == 'true'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Base image from the cache of the base job, in a local registry for the robot build.
+      - name: Load base image
+        uses: docker/build-push-action@v7
+        with:
+          context: common
+          file: common/rtw-tools.jazzy.Dockerfile
+          push: true
+          tags: ${{ env.LOCAL_REGISTRY }}/rtw-tools:jazzy
+          cache-from: type=gha,scope=rtw-tools
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ matrix.robot }}-commission
+          tags: |
+            type=ref,event=tag
+            type=raw,value=${{ inputs.version }},enable=${{ github.event_name == 'workflow_dispatch' }}
+            type=ref,event=pr
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.robot }}
+          file: ${{ matrix.robot }}/comissioning.Dockerfile
+          build-args: |
+            BASE_IMAGE=${{ env.LOCAL_REGISTRY }}/rtw-tools:jazzy
+            ROBOT_MANUFACTURER=${{ matrix.robot }}
+          push: ${{ env.PUSH == 'true' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
