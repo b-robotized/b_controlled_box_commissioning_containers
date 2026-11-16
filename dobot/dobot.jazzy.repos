@@ -1,8 +1,4 @@
 repositories:
-    b_ctrldbox_commissioning:
-        type: git
-        url: https://github.com/b-robotized/b_ctrldbox_commissioning.git
-        version: dobot-master
     DOBOT_6Axis_ROS2_V4:
         type: git
         url: https://github.com/b-robotized-forks/DOBOT_6Axis_ROS2_V4.git

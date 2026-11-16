@@ -1,5 +1,6 @@
 # Start from pre-build rtw-layer image layer
-FROM code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers/rtw-tools:jazzy
+ARG BASE_IMAGE=ghcr.io/b-robotized/b_controlled_box_commissioning_containers/rtw-tools:jazzy
+FROM ${BASE_IMAGE}
 ARG ROBOT_MANUFACTURER
 
 # Use bash as the default shell
