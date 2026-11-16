@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-c"]
 #########################
 # root user
 #########################
-# ssh forwarding from host works only as root user, so we do our vcs import that needs the authentification right here, before switching to b-robotized user.
+# ssh forwarding from host works only as root user, so we do our vcs import that needs the authentication right here, before switching to b-robotized user.
 RUN mkdir -p -m 0700 /root/.ssh && \
     ssh-keyscan code.b-robotized.com >> /root/.ssh/known_hosts
 
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y git-lfs && \
 RUN --mount=type=ssh \
   vcs import . < fanuc.jazzy.repos && \
   vcs custom --git --args submodule update --init --recursive
-  
+
 RUN chown -R b-robotized:b-robotized /home/b-robotized/comissioning
 
 ############################
@@ -43,7 +43,7 @@ RUN yes | rtw workspace create --ws-folder ros2_jazzy --ros-distro jazzy --ignor
 # pull the repos for this robot
 WORKDIR /home/b-robotized/comissioning/ros2_jazzy/src
 
-RUN sudo apt update && sudo apt install -y ros-jazzy-moveit ros-jazzy-ros2-control ros-jazzy-ros2-control-cmake ros-jazzy-ros2controlcli ros-jazzy-ros2-controllers 
+RUN sudo apt update && sudo apt install -y ros-jazzy-moveit ros-jazzy-ros2-control ros-jazzy-ros2-control-cmake ros-jazzy-ros2controlcli ros-jazzy-ros2-controllers
 # run rosdep install
 WORKDIR /home/b-robotized/comissioning/ros2_jazzy
 RUN rosdep update && rosdep install --from-paths src --ignore-src -r -y

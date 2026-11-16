@@ -7,5 +7,3 @@ repositories:
         type: git
         url: https://github.com/b-robotized/kassow_kord_vendor.git
         version: master
-
-

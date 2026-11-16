@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-c"]
 #########################
 # root user
 #########################
-# ssh forwarding from host works only as root user, so we do our vcs import that needs the authentification right here, before switching to b-robotized user.
+# ssh forwarding from host works only as root user, so we do our vcs import that needs the authentication right here, before switching to b-robotized user.
 RUN mkdir -p -m 0700 /root/.ssh && \
     ssh-keyscan code.b-robotized.com >> /root/.ssh/known_hosts
 
@@ -40,7 +40,7 @@ RUN yes | rtw workspace create \
 --ws-folder ros2_jazzy \
 --ros-distro jazzy \
 --ignore-ws-cmd-error \
---env-vars RMW_IMPLEMENTATION=rmw_zenoh_cpp RUST_LOG=zenoh=warn,zenoh_transport=warn 
+--env-vars RMW_IMPLEMENTATION=rmw_zenoh_cpp RUST_LOG=zenoh=warn,zenoh_transport=warn
 
 ############################
 # Workspace build
@@ -64,7 +64,7 @@ RUN rtw workspace use ros2_jazzy && \
 ############################
 
 # set env variables
-ENV ROS_STATIC_PEERS="192.168.28.7"    
+ENV ROS_STATIC_PEERS="192.168.28.7"
 # cd into corresponding robot dir
 WORKDIR /home/b-robotized/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning
 # auto-source on new terminal opening
