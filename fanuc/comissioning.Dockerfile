@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y git-lfs && \
 RUN --mount=type=ssh \
   vcs import . < fanuc.jazzy.repos && \
   vcs custom --git --args submodule update --init --recursive
+RUN clone_robot_dir "https://github.com/b-robotized/b_ctrldbox_commissioning.git" "fanuc" "b_ctrldbox_commissioning/"
 
 RUN chown -R b-robotized:b-robotized /home/b-robotized/comissioning
 

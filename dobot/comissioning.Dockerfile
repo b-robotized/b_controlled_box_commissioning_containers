@@ -17,6 +17,7 @@ WORKDIR /home/b-robotized/comissioning/ros2_jazzy/src
 COPY dobot.jazzy.repos .
 RUN --mount=type=ssh \
   vcs import . < dobot.jazzy.repos
+RUN clone_robot_dir "https://github.com/b-robotized/b_ctrldbox_commissioning.git" "dobot" "b_ctrldbox_commissioning/"
 RUN chown -R b-robotized:b-robotized /home/b-robotized/comissioning
 
 ############################
