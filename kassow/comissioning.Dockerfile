@@ -1,5 +1,6 @@
 # Start from pre-build rtw-layer image layer
-FROM code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers/rtw-tools:jazzy
+ARG BASE_IMAGE=ghcr.io/b-robotized/b_controlled_box_commissioning_containers/rtw-tools:jazzy
+FROM ${BASE_IMAGE}
 ARG ROBOT_MANUFACTURER
 
 # Use bash as the default shell
@@ -8,7 +9,7 @@ SHELL ["/bin/bash", "-c"]
 #########################
 # root user
 #########################
-# ssh forwarding from host works only as root user, so we do our vcs import that needs the authentification right here, before switching to b-robotized user.
+# ssh forwarding from host works only as root user, so we do our vcs import that needs the authentication right here, before switching to b-robotized user.
 RUN mkdir -p -m 0700 /root/.ssh && \
     ssh-keyscan code.b-robotized.com >> /root/.ssh/known_hosts
 
@@ -34,7 +35,7 @@ RUN yes | rtw workspace create \
 --ws-folder ros2_jazzy \
 --ros-distro jazzy \
 --ignore-ws-cmd-error \
---env-vars RMW_IMPLEMENTATION=rmw_zenoh_cpp RUST_LOG=zenoh=warn,zenoh_transport=warn 
+--env-vars RMW_IMPLEMENTATION=rmw_zenoh_cpp RUST_LOG=zenoh=warn,zenoh_transport=warn
 
 ############################
 # Workspace build

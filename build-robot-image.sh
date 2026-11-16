@@ -27,7 +27,7 @@ if [ ! -d "$ROBOT_MANUFACTURER" ]; then
   exit 1
 fi
 
-CONTAINER_REGISTRY_URL="code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers"
+CONTAINER_REGISTRY_URL="ghcr.io/b-robotized/b_controlled_box_commissioning_containers"
 IMAGE_NAME="${ROBOT_MANUFACTURER}-commission"
 FULL_IMAGE_PATH="${CONTAINER_REGISTRY_URL}/${IMAGE_NAME}:${IMAGE_TAG}"
 

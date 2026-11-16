@@ -16,6 +16,7 @@ This repository contains the **Dockerfiles and build scripts** for all publicly 
 6. [Rebuilding the Base Image (Advanced)](#6-rebuilding-the-base-image-advanced)
 7. [Using Your Custom Image](#7-using-your-custom-image)
 8. [Reference](#8-reference)
+9. [Publishing Images (CI)](#9-publishing-images-ci)
 
 ---
 
@@ -123,7 +124,7 @@ chmod +x build-robot-image.sh
    - `--build-arg ROBOT_MANUFACTURER=<robot>` -- passed to the Dockerfile.
 3. Tags the resulting image as:
    ```
-   code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers/<robot>-commission:<tag>
+   ghcr.io/b-robotized/b_controlled_box_commissioning_containers/<robot>-commission:<tag>
    ```
 
 > **Why the full registry path as a local tag?** The `start.sh` script in `b_ctrldbox_commissioning` checks for this exact tag. By using the full registry path locally, Docker finds the image and skips pulling from the remote registry. ***This is how local custom builds take priority over pre-built images.***
@@ -150,18 +151,19 @@ chmod +x build.sh
 This builds the base image and tags it locally with the full registry path:
 
 ```
-code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers/rtw-tools:jazzy
+ghcr.io/b-robotized/b_controlled_box_commissioning_containers/rtw-tools:jazzy
 ```
 
-**Important:** The robot Dockerfiles reference this exact path in their `FROM` line:
+**Important:** The robot Dockerfiles use this exact path as default for the base image:
 
 ```dockerfile
-FROM code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers/rtw-tools:jazzy
+ARG BASE_IMAGE=ghcr.io/b-robotized/b_controlled_box_commissioning_containers/rtw-tools:jazzy
+FROM ${BASE_IMAGE}
 ```
 
 Because `build.sh` tags the local build with this same path, Docker resolves the `FROM` to your local image instead of pulling from the remote registry.
 
-> **To revert to the official base image:** Remove the local tag with `docker rmi code.b-robotized.com:5050/.../rtw-tools:jazzy` and Docker will pull the upstream version on the next robot image build.
+> **To revert to the official base image:** Remove the local tag with `docker rmi ghcr.io/.../rtw-tools:jazzy` and Docker will pull the upstream version on the next robot image build.
 
 ---
 
@@ -201,3 +203,15 @@ Usage inside a Dockerfile:
 ```dockerfile
 RUN clone_robot_dir "<repo_url>" "<robot_dir_name>" "<target_dir_name>"
 ```
+
+---
+
+## 9. Publishing Images (CI)
+
+The `Docker` GitHub workflow (`.github/workflows/docker-build.yml`) builds the base image and all robot images.
+
+- **Pull request:** builds all images, no push.
+- **Git tag** (e.g. `1.6.x`): builds all images and pushes them to `ghcr.io/b-robotized/b_controlled_box_commissioning_containers` with the tag as image tag.
+- **Manual run** (Actions → Docker → Run workflow): same as a git tag, with the image tag from the `version` input.
+
+The base image is always pushed as `rtw-tools:jazzy`.

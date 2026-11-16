@@ -43,7 +43,7 @@ RUN apt update && apt install -y \
         ros-jazzy-ros2-controllers \
     && rm -rf /var/lib/apt/lists/*
 
-# add local network 
+# add local network
 RUN echo "allow 192.168.28.0/24" >> /etc/chrony/chrony.conf
 
 # add entrypoint

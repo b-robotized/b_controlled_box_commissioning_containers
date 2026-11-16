@@ -1,5 +1,6 @@
 # Start from pre-build rtw-layer image layer
-FROM code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers/rtw-tools:jazzy
+ARG BASE_IMAGE=ghcr.io/b-robotized/b_controlled_box_commissioning_containers/rtw-tools:jazzy
+FROM ${BASE_IMAGE}
 ARG ROBOT_MANUFACTURER
 
 # Use bash as the default shell
@@ -8,7 +9,7 @@ SHELL ["/bin/bash", "-c"]
 #########################
 # root user
 #########################
-# ssh forwarding from host works only as root user, so we do our vcs import that needs the authentification right here, before switching to b-robotized user.
+# ssh forwarding from host works only as root user, so we do our vcs import that needs the authentication right here, before switching to b-robotized user.
 RUN mkdir -p -m 0700 /root/.ssh && \
     ssh-keyscan code.b-robotized.com >> /root/.ssh/known_hosts
 
@@ -44,7 +45,7 @@ RUN yes | rtw workspace create --ws-folder ros2_jazzy --ros-distro jazzy --ignor
 # pull the repos for this robot
 WORKDIR /home/b-robotized/comissioning/ros2_jazzy/src
 
-RUN sudo apt update && sudo apt install -y ros-jazzy-moveit ros-jazzy-ros2-control ros-jazzy-ros2-control-cmake ros-jazzy-ros2controlcli ros-jazzy-ros2-controllers 
+RUN sudo apt update && sudo apt install -y ros-jazzy-moveit ros-jazzy-ros2-control ros-jazzy-ros2-control-cmake ros-jazzy-ros2controlcli ros-jazzy-ros2-controllers
 # run rosdep install
 WORKDIR /home/b-robotized/comissioning/ros2_jazzy
 RUN rosdep update && rosdep install --from-paths src --ignore-src -r -y
