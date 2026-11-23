@@ -65,7 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        robot: [dobot, fanuc, franka, kassow, kuka, pssbl, ur]
+        robot: [dobot, fanuc, franka, kassow, kuka, pssbl, ur, yaskawa]
     services:
       registry:
         image: registry:2

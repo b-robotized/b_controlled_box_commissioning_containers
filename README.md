@@ -55,6 +55,9 @@ b_controlled_box_commissioning_containers/
   fanuc/                        # Fanuc robot image
     comissioning.Dockerfile
     fanuc.jazzy.repos
+  yaskawa/                      # Yaskawa robot image
+    comissioning.Dockerfile
+    yaskawa.jazzy.repos
   build-robot-image.sh          # Build script
 ```
 
